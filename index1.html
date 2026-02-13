@@ -2,91 +2,89 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Valentine 💖</title>
+  <title>For Rimi 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Handwritten font -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 
   <style>
     body {
       margin: 0;
-      background: linear-gradient(#ffc0cb, #ffe6f0);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: Arial, sans-serif;
       text-align: center;
-      font-family: 'Poppins', sans-serif;
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
-    .container {
-      padding: 20px;
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      max-width: 340px;
+      width: 90%;
+      z-index: 1;
     }
 
     img {
-      width: 65%;
-      max-width: 220px;
-      border-radius: 20px;
-      margin-top: 20px;
-      animation: pulse 2s infinite;
-      box-shadow: 0 0 25px rgba(255, 80, 130, 0.6);
+      width: 100%;
+      max-width: 200px;
+      border-radius: 15px;
+      margin-bottom: 15px;
     }
 
-    @keyframes pulse {
-      0% { box-shadow: 0 0 15px rgba(255,80,130,0.4); }
-      100% { box-shadow: 0 0 30px rgba(255,80,130,0.9); }
+    h1 {
+      color: #ff2e63;
+      margin-bottom: 10px;
     }
 
-    .name {
-      font-family: 'Pacifico', cursive;
-      font-size: 42px;
-      color: #ff145a;
-      margin-top: 10px;
-    }
-
-    h2 {
-      color: #8b0030;
+    p {
+      color: #444;
+      font-size: 16px;
+      margin-bottom: 20px;
     }
 
     button {
-      font-size: 18px;
-      padding: 12px 28px;
-      margin: 14px;
+      padding: 12px 25px;
       border: none;
-      border-radius: 30px;
+      border-radius: 25px;
+      font-size: 16px;
       cursor: pointer;
-      background-color: #ff3366;
+      margin: 8px;
+    }
+
+    #yes {
+      background-color: #ff2e63;
       color: white;
-      transition: transform 0.3s ease;
     }
 
-    #yesBtn.clicked {
-      transform: scale(1.3);
+    #no {
+      background-color: #ccc;
+      color: #666;
+      cursor: not-allowed;
     }
 
-    #noBtn {
-      background-color: #888;
-      position: absolute;
-    }
-
-    .letter {
+    .note {
       display: none;
-      margin: 40px auto;
-      padding: 25px;
-      max-width: 90%;
-      background: #fff0f5;
-      border-radius: 20px;
+      margin-top: 20px;
       font-family: 'Pacifico', cursive;
-      font-size: 22px;
-      color: #b3003b;
+      font-size: 18px;
+      color: #c2185b;
       line-height: 1.6;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      min-height: 200px;
     }
 
+    /* Falling hearts */
     .heart {
       position: fixed;
       top: -10px;
       font-size: 20px;
       animation: fall 5s linear;
+      pointer-events: none;
     }
 
     @keyframes fall {
@@ -99,50 +97,53 @@
 </head>
 <body>
 
-  <audio id="bgMusic" loop>
+  <!-- Background Music -->
+  <audio id="music" loop>
     <source src="music.mp3" type="audio/mpeg">
   </audio>
 
-  <div class="container">
-    <img src="sayantika.jpg" alt="Rimi">
-    <div class="name">Rimi 💖</div>
+  <div class="card">
+    <!-- Image -->
+    <img src="rimi.jpg" alt="Rimi">
 
-    <h2>Will you be my Valentine?</h2>
+    <h1>Rimi 💖</h1>
+    <p>Will you be my Valentine?</p>
 
-    <button id="yesBtn" onclick="sayYes()">Yes 💕</button>
-    <button id="noBtn" onmouseover="runAway()">No</button>
+    <button id="yes" onclick="sayYes()">Yes 💕</button>
+    <button id="no" disabled>No 🙈</button>
 
-    <div class="letter" id="letter"></div>
+    <!-- Handwritten Love Note -->
+    <div class="note" id="note">
+      Dear Rimi,<br><br>
+      I don’t know when you became<br>
+      my favorite thought every day,<br>
+      but I know one thing for sure —<br>
+      life feels warmer with you in it.<br><br>
+      Happy Valentine’s Day ❤️
+    </div>
   </div>
 
   <script>
-    const music = document.getElementById("bgMusic");
-    const letterBox = document.getElementById("letter");
-    const yesBtn = document.getElementById("yesBtn");
-
-    const letterText = 
-`Dear Rimi,
-
-I don’t know when it happened,
-but somewhere between your smile
-and the way you make everything feel lighter,
-you became my favorite part of every day.
-
-This is my small, silly, honest way of saying —
-I choose you.
-Today, tomorrow, always. 💖`;
+    const music = document.getElementById("music");
+    const note = document.getElementById("note");
 
     function sayYes() {
+      note.style.display = "block";
       music.play();
-      yesBtn.classList.add("clicked");
-      letterBox.style.display = "block";
-      typeLetter();
-      heartRain();
-      letterBox.scrollIntoView({ behavior: "smooth" });
+      startHearts();
     }
 
-    function typeLetter() {
-      let i = 0;
-      letterBox.innerHTML = "";
-      const interval = setInterval(() => {
-        letterBox.innerHTML += letterText[i
+    function startHearts() {
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "❤️";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }, 300);
+    }
+  </script>
+
+</body>
+</html>
